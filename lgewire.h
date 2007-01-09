@@ -1,6 +1,8 @@
 /************************************************************
 
-Copyright (c) 2004, Sun Microsystems, Inc. 
+$RCSfile: lgewire.h,v $
+
+Copyright (c) 2006, Sun Microsystems, Inc. 
 
 Permission to use, copy, modify, distribute, and sell this software and its
 documentation for any purpose is hereby granted without fee, provided that
@@ -22,6 +24,10 @@ Except as contained in this notice, the name of The Open Group shall not be
 used in advertising or otherwise to promote the sale, use or other dealings
 in this Software without prior written authorization from The Open Group.
 
+$Revision: 1.1.4.2 $
+$Date: 2006/01/18 18:51:05 $
+$State: Exp $
+
 ********************************************************/
 
 /*
@@ -36,7 +42,7 @@ in this Software without prior written authorization from The Open Group.
 #define LGE_NAME "LGE"
 
 /* Current interface version numbers */
-#define LGE_MAJOR_VERSION   5      
+#define LGE_MAJOR_VERSION   6      
 #define LGE_MINOR_VERSION   0
 
 /* Display Server is alive */
@@ -45,11 +51,17 @@ in this Software without prior written authorization from The Open Group.
 #define  X_LgeRegisterScreen         2
 #define  X_LgeControlLgMode          3
 #define  X_LgeSendEvent              4
+#define  X_LgeInputContextCreate     5
+#define  X_LgeInputContextDestroy    6
+#define  X_LgeInputContextBindClient 7
+#define  X_LgeInputContextSendEvent  8
 
 /* Arguments to XLgeRegisterClient */
 #define LGE_CLIENT_GENERIC	     0
 #define LGE_CLIENT_PICKER            1
 #define LGE_CLIENT_EVENT_DELIVERER   2
+
+typedef XID InputContext;
 
 typedef struct {
     CARD8       reqType;		
@@ -115,6 +127,44 @@ typedef struct {
 } xLgeSendEventReq;                                                       
 
 #define sz_xLgeSendEventReq sizeof(xLgeSendEventReq)
+
+typedef struct {                                            
+    CARD8        reqType;                                               
+    CARD8        lgeReqType;                                          
+    CARD16       length B16;                                            
+    InputContext ictx;
+} xLgeInputContextCreateReq;                                                       
+
+#define sz_xLgeInputContextCreateReq sizeof(xLgeInputContextCreateReq)
+
+typedef struct {                                            
+    CARD8        reqType;                                               
+    CARD8        lgeReqType;                                          
+    CARD16       length B16;                                            
+    InputContext ictx;
+} xLgeInputContextDestroyReq;                                                       
+
+#define sz_xLgeInputContextDestroyReq sizeof(xLgeInputContextDestroyReq)
+
+typedef struct {                                            
+    CARD8        reqType;                                               
+    CARD8        lgeReqType;                                          
+    CARD16       length B16;                                            
+    InputContext ictx;
+    Window       win;
+} xLgeInputContextBindClientReq;                                                       
+
+#define sz_xLgeInputContextBindClientReq sizeof(xLgeInputContextBindClientReq)
+
+typedef struct {                                            
+    CARD8        reqType;                                               
+    CARD8        lgeReqType;                                          
+    CARD16       length B16;                                            
+    InputContext ictx;
+    xEvent       event;                                                 
+} xLgeInputContextSendEventReq;                                                       
+
+#define sz_xLgeInputContextSendEventReq sizeof(xLgeInputContextSendEventReq)
 
 #endif /* LGEWIRE_H */
 
